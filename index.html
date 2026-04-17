@@ -72,7 +72,7 @@ button{
 /* lluvia corazones */
 .heart{
   position:fixed;
-  font-size:40px;
+  font-size:45px;
   animation:caer 6s linear forwards;
 }
 
@@ -93,7 +93,7 @@ button{
 
 /* abrazo */
 .final{
-  font-size:45px;
+  font-size:50px;
   margin-top:30px;
   color:red;
   cursor:pointer;
@@ -118,6 +118,7 @@ button{
 </div>
 
 <script>
+
 // iniciar
 function iniciar(){
   document.getElementById("portada").style.display="none";
@@ -125,10 +126,10 @@ function iniciar(){
   escribir();
 }
 
-// texto
-const textoCompleto = `Mientras el código corre en silencio y cada línea encuentra su lugar, hay algo que no se puede compilar ni programar: lo que siento cuando pienso en ti. Como un algoritmo perfecto, apareces en el momento justo, dando sentido a todo lo demás. Entre funciones y variables, entendí que hay conexiones que van más allá de la lógica, y la nuestra es una de ellas.
+// texto inicial
+const textoCompleto = `Mientras el código corre en silencio y cada línea encuentra su lugar, hay algo que no se puede compilar ni programar: lo que siento cuando pienso en ti...
 
-Si pudiera optimizar algo en mi vida, sería el tiempo para compartirlo contigo, porque contigo todo funciona mejor, más claro, más bonito… como si cada error encontrara solución.
+Si pudiera optimizar algo en mi vida, sería el tiempo para compartirlo contigo...
 
 Y entre todo este mundo de código y sistemas, solo me queda una pregunta sincera: ¿me permites estar cerca de ti?`;
 
@@ -153,12 +154,12 @@ function botones(){
 
 // lluvia corazones
 function lluvia(){
-  for(let i=0;i<40;i++){
+  for(let i=0;i<50;i++){
     let h=document.createElement("div");
     h.className="heart";
     h.innerText="❤️";
     h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(30+Math.random()*40)+"px";
+    h.style.fontSize=(35+Math.random()*40)+"px";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),6000);
   }
@@ -168,11 +169,14 @@ function lluvia(){
 function aceptar(){
   if(navigator.vibrate) navigator.vibrate([100,50,150]);
 
+  // limpiar TODO
+  document.getElementById("main").innerHTML="";
+
   lluvia();
 
   setTimeout(()=>{
     document.getElementById("main").innerHTML=
-`<div class="fade-text">
+`<div class="fade-text" onclick="mostrarAbrazo()">
 <p>
 Sé que no todo ha sido perfecto, y no voy a negar mis errores… pero hoy quiero hablarte desde lo más sincero de mí. No fallaré más, porque entendí lo que realmente importa y el valor que tienes en mi vida.
 
@@ -182,8 +186,6 @@ Espero que esto sea un nuevo comienzo, uno donde la confianza crezca poco a poco
 
 Te amitooooo, mi amor ❤️
 </p>
-
-<div class="final" onclick="abrazo()">abrazhooo ❤️</div>
 </div>`;
   },2000);
 }
@@ -192,11 +194,13 @@ Te amitooooo, mi amor ❤️
 function rechazar(){
   if(navigator.vibrate) navigator.vibrate([300,100,300]);
 
+  document.getElementById("main").innerHTML="";
+
   lluvia();
 
   setTimeout(()=>{
     document.getElementById("main").innerHTML=
-`<div class="fade-text">
+`<div class="fade-text" onclick="mostrarAbrazo()">
 <p>
 No es fácil despedirse, pero a veces es necesario para que cada uno siga su camino. Quiero que sepas que, pase lo que pase, siempre vas a tener en mí a alguien que te aprecia de verdad. Me llevo los buenos momentos, las sonrisas y todo lo bonito que compartimos.
 
@@ -204,16 +208,16 @@ La distancia no cambia lo que siento como persona hacia ti: respeto, cariño y b
 
 Cuídate mucho… y recuerda que siempre habrá alguien aquí que quiere verte 💔
 </p>
-
-<div class="final" onclick="abrazo()">abrazhooo ❤️</div>
 </div>`;
   },2000);
 }
 
-// abrazo
-function abrazo(){
+// mostrar abrazo al tocar pantalla
+function mostrarAbrazo(){
+  document.getElementById("main").innerHTML=
+  `<div class="final">abrazhooo ❤️</div>`;
+
   if(navigator.vibrate) navigator.vibrate([200,50,200,50,300]);
-  alert("🫂❤️");
 }
 
 // estrellas
@@ -253,6 +257,7 @@ function draw(){
 }
 
 draw();
+
 </script>
 
 </body>
