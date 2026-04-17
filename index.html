@@ -13,7 +13,6 @@ body {
   font-family: Arial;
 }
 
-/* canvas estrellas */
 canvas {
   position: fixed;
   top: 0;
@@ -21,7 +20,6 @@ canvas {
   z-index: -1;
 }
 
-/* contenido */
 .container {
   max-width: 700px;
   margin: auto;
@@ -30,7 +28,7 @@ canvas {
   line-height: 1.6;
 }
 
-/* typing */
+/* cursor typing */
 #texto::after {
   content: "|";
   animation: blink 1s infinite;
@@ -47,6 +45,16 @@ button {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: aparecer 1s forwards;
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .yes { background: #00cc88; color: white; }
@@ -105,13 +113,13 @@ button {
 
 <canvas id="stars"></canvas>
 
-<div class="container" id="main" onclick="mostrarBotones()">
+<div class="container" id="main">
   <p id="texto"></p>
   <div id="botones"></div>
 </div>
 
 <script>
-// TEXTO TYPEWRITER
+// TEXTO
 const textoCompleto = `Mientras el código corre en silencio y cada línea encuentra su lugar, hay algo que no se puede compilar ni programar: lo que siento cuando pienso en ti. Como un algoritmo perfecto, apareces en el momento justo, dando sentido a todo lo demás. Entre funciones y variables, entendí que hay conexiones que van más allá de la lógica, y la nuestra es una de ellas.
 
 Si pudiera optimizar algo en mi vida, sería el tiempo para compartirlo contigo, porque contigo todo funciona mejor, más claro, más bonito… como si cada error encontrara solución.
@@ -119,30 +127,34 @@ Si pudiera optimizar algo en mi vida, sería el tiempo para compartirlo contigo,
 Y entre todo este mundo de código y sistemas, solo me queda una pregunta sincera: ¿me permites estar cerca de ti?`;
 
 let i = 0;
+
 function escribir() {
   if (i < textoCompleto.length) {
     document.getElementById("texto").innerHTML += textoCompleto.charAt(i);
     i++;
-    setTimeout(escribir, 25);
+    setTimeout(escribir, 60);
+  } else {
+    mostrarBotones();
   }
 }
+
 escribir();
 
 // BOTONES
-let activado = false;
 function mostrarBotones() {
-  if (activado) return;
-  activado = true;
-
   document.getElementById("botones").innerHTML =
   `<div>
-    <button class="yes" onclick="event.stopPropagation(); mostrarCorazon()">Sí 💚</button>
-    <button class="no" onclick="event.stopPropagation(); romperCorazon()">No 💔</button>
+    <button class="yes" onclick="mostrarCorazon()">Sí 💚</button>
+    <button class="no" onclick="romperCorazon()">No 💔</button>
   </div>`;
 }
 
-// CORAZÓN SI
+// ❤️ SI
 function mostrarCorazon() {
+  if (navigator.vibrate) {
+    navigator.vibrate([100, 30, 100, 30, 200]);
+  }
+
   document.getElementById("main").innerHTML =
   '<div class="heart-big" onclick="mensajeSi()">❤️</div>';
 }
@@ -160,8 +172,12 @@ Te amitooooo, mi amor. ❤️
 </p>`;
 }
 
-// CORAZÓN NO
+// 🤍 NO
 function romperCorazon() {
+  if (navigator.vibrate) {
+    navigator.vibrate([300, 100, 300]);
+  }
+
   document.getElementById("main").innerHTML =
   '<div class="broken"></div>';
 
@@ -185,12 +201,12 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let stars = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 120; i++) {
   stars.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     size: Math.random() * 2,
-    speed: Math.random() * 1
+    speed: Math.random() * 0.8
   });
 }
 
