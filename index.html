@@ -1,118 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mensaje</title>
-  <style>
-    body {
-      background-color: #0d0d0d;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<title>Mensaje</title>
 
-    .container {
-      max-width: 700px;
-      padding: 30px;
-      border-radius: 15px;
-      background-color: #1a1a1a;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-      text-align: center;
-      line-height: 1.6;
-    }
+<style>
+body {
+  background: #0d0d0d;
+  color: white;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
 
-    .final {
-      margin-top: 25px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #00ffcc;
-    }
+.container {
+  text-align: center;
+  max-width: 700px;
+}
 
-    .buttons {
-      margin-top: 30px;
-    }
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    button {
-      padding: 12px 25px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.yes { background: #00cc88; color: white; }
+.no { background: #cc4444; color: white; }
 
-    .yes {
-      background-color: #00cc88;
-      color: white;
-    }
+/* ❤️ corazón grande rojo */
+.heart-big {
+  font-size: 130px;
+  cursor: pointer;
+  animation: latido 1s infinite;
+  color: red;
+  text-shadow: 0 0 20px red;
+}
 
-    .no {
-      background-color: #cc4444;
-      color: white;
-    }
+@keyframes latido {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
 
-    #respuesta {
-      margin-top: 20px;
-      font-size: 17px;
-      white-space: pre-line;
-    }
-  </style>
+/* 🤍 corazón roto */
+.broken {
+  font-size: 120px;
+  position: relative;
+}
+
+.broken::before, .broken::after {
+  content: "🤍";
+  position: absolute;
+}
+
+.broken::before {
+  left: -10px;
+  animation: leftBreak 1s forwards;
+}
+
+.broken::after {
+  right: -10px;
+  animation: rightBreak 1s forwards;
+}
+
+@keyframes leftBreak {
+  to { transform: translateX(-50px) rotate(-25deg); opacity: 0; }
+}
+
+@keyframes rightBreak {
+  to { transform: translateX(50px) rotate(25deg); opacity: 0; }
+}
+
+#respuesta {
+  margin-top: 20px;
+  white-space: pre-line;
+}
+</style>
+
 </head>
 
 <body>
-  <div class="container">
 
-    <p>
-      Mientras el código corre en silencio y cada línea encuentra su lugar,
-      hay algo que no se puede compilar ni programar: lo que siento cuando pienso en ti.
-      Como un algoritmo perfecto, apareces en el momento justo, dando sentido a todo lo demás.
-      Entre funciones y variables, entendí que hay conexiones que van más allá de la lógica,
-      y la nuestra es una de ellas.
-    </p>
+<div class="container" id="main">
 
-    <p>
-      Si pudiera optimizar algo en mi vida, sería el tiempo para compartirlo contigo,
-      porque contigo todo funciona mejor, más claro, más bonito… como si cada error encontrara solución.
-    </p>
+<p>¿me permites estar cerca de ti?</p>
 
-    <p class="final">
-      ¿me permites estar cerca de ti?
-    </p>
+<button class="yes" onclick="mostrarCorazon()">Sí 💚</button>
+<button class="no" onclick="romperCorazon()">No 💔</button>
 
-    <div class="buttons">
-      <button class="yes" onclick="aceptar()">Sí 💚</button>
-      <button class="no" onclick="rechazar()">No 💔</button>
-    </div>
+<div id="respuesta"></div>
 
-    <p id="respuesta"></p>
+</div>
 
-  </div>
+<script>
+function mostrarCorazon() {
+  document.getElementById("main").innerHTML =
+  '<div class="heart-big" onclick="mensajeSi()">❤️</div>';
+}
 
-  <script>
-    function aceptar() {
-      document.getElementById("respuesta").innerText = 
-`Sé que no todo ha sido perfecto, y no voy a negar mis errores… pero hoy quiero hablarte desde lo más sincero de mí. No fallaré más, porque entendí lo que realmente importa y el valor que tienes en mi vida.
+function mensajeSi() {
+  document.getElementById("main").innerHTML =
+`<p id="respuesta">
+Sé que no todo ha sido perfecto, y no voy a negar mis errores… pero hoy quiero hablarte desde lo más sincero de mí. No fallaré más, porque entendí lo que realmente importa y el valor que tienes en mi vida.
 
 De mí solo vas a recibir lo mejor: mi esfuerzo, mi tiempo, mi respeto y un cariño que quiere hacer las cosas bien, sin excusas ni dudas. No prometo ser perfecto, pero sí ser constante y demostrarte con hechos lo que significas para mí.
 
 Espero que esto sea un nuevo comienzo, uno donde la confianza crezca poco a poco y donde podamos sentirnos seguros el uno con el otro. Porque más que empezar de nuevo, quiero hacerlo mejor… contigo.
 
-Te amitooooo, mi amor. 💚`;
-    }
+Te amitooooo, mi amor. ❤️
+</p>`;
+}
 
-    function rechazar() {
-      document.getElementById("respuesta").innerText = 
-`No es fácil despedirse, pero a veces es necesario para que cada uno siga su camino. Quiero que sepas que, pase lo que pase, siempre vas a tener en mí a alguien que te aprecia de verdad. Me llevo los buenos momentos, las sonrisas y todo lo bonito que compartimos.
+function romperCorazon() {
+  document.getElementById("main").innerHTML =
+  '<div class="broken"></div>';
+
+  setTimeout(() => {
+    document.getElementById("main").innerHTML =
+`<p id="respuesta">
+No es fácil despedirse, pero a veces es necesario para que cada uno siga su camino. Quiero que sepas que, pase lo que pase, siempre vas a tener en mí a alguien que te aprecia de verdad. Me llevo los buenos momentos, las sonrisas y todo lo bonito que compartimos.
 
 La distancia no cambia lo que siento como persona hacia ti: respeto, cariño y buenos deseos. Y aunque ya no estemos tan cerca como antes, puedes contar conmigo cuando lo necesites, porque mi apoyo y mi cariño no desaparecen con una despedida.
 
-Cuídate mucho… y recuerda que siempre habrá alguien aquí que quiere verte. 💔`;
-    }
-  </script>
+Cuídate mucho… y recuerda que siempre habrá alguien aquí que quiere verte. 💔
+</p>`;
+  }, 1200);
+}
+</script>
 
 </body>
 </html>
