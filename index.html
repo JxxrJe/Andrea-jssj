@@ -20,6 +20,32 @@ canvas {
   z-index: -1;
 }
 
+/* portada */
+.portada {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.flor {
+  font-size: 100px;
+  animation: latido 1.5s infinite;
+}
+
+@keyframes latido {
+  50% { transform: scale(1.2); }
+}
+
+.texto-portada {
+  margin-top: 15px;
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+/* contenido */
 .container {
   max-width: 700px;
   margin: auto;
@@ -45,35 +71,18 @@ button {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: aparecer 1s forwards;
 }
 
-@keyframes aparecer {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.yes { background: #00cc88; }
+.no { background: #cc4444; }
 
-.yes { background: #00cc88; color: white; }
-.no { background: #cc4444; color: white; }
-
-/* corazón rojo */
+/* corazón */
 .heart-big {
   font-size: 130px;
-  cursor: pointer;
   animation: latido 1s infinite;
   color: red;
-  text-shadow: 0 0 25px red;
 }
 
-@keyframes latido {
-  50% { transform: scale(1.3); }
-}
-
-/* corazón roto */
 .broken {
   font-size: 120px;
   position: relative;
@@ -113,12 +122,26 @@ button {
 
 <canvas id="stars"></canvas>
 
-<div class="container" id="main">
+<!-- PORTADA -->
+<div class="portada" id="portada" onclick="iniciar()">
+  <div class="flor">💐</div>
+  <div class="texto-portada">Toca el ramo 🌹</div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="container" id="main" style="display:none;">
   <p id="texto"></p>
   <div id="botones"></div>
 </div>
 
 <script>
+// INICIAR
+function iniciar() {
+  document.getElementById("portada").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  escribir();
+}
+
 // TEXTO
 const textoCompleto = `Mientras el código corre en silencio y cada línea encuentra su lugar, hay algo que no se puede compilar ni programar: lo que siento cuando pienso en ti. Como un algoritmo perfecto, apareces en el momento justo, dando sentido a todo lo demás. Entre funciones y variables, entendí que hay conexiones que van más allá de la lógica, y la nuestra es una de ellas.
 
@@ -132,64 +155,41 @@ function escribir() {
   if (i < textoCompleto.length) {
     document.getElementById("texto").innerHTML += textoCompleto.charAt(i);
     i++;
-    setTimeout(escribir, 60);
+    setTimeout(escribir, 80); // MÁS LENTO
   } else {
     mostrarBotones();
   }
 }
 
-escribir();
-
 // BOTONES
 function mostrarBotones() {
   document.getElementById("botones").innerHTML =
-  `<div>
-    <button class="yes" onclick="mostrarCorazon()">Sí 💚</button>
-    <button class="no" onclick="romperCorazon()">No 💔</button>
-  </div>`;
+  `<button class="yes" onclick="mostrarCorazon()">Sí 💚</button>
+   <button class="no" onclick="romperCorazon()">No 💔</button>`;
 }
 
-// ❤️ SI
+// SI
 function mostrarCorazon() {
-  if (navigator.vibrate) {
-    navigator.vibrate([100, 30, 100, 30, 200]);
-  }
-
+  if (navigator.vibrate) navigator.vibrate([100,30,100,30,200]);
   document.getElementById("main").innerHTML =
   '<div class="heart-big" onclick="mensajeSi()">❤️</div>';
 }
 
 function mensajeSi() {
   document.getElementById("main").innerHTML =
-`<p id="respuesta">
-Sé que no todo ha sido perfecto, y no voy a negar mis errores… pero hoy quiero hablarte desde lo más sincero de mí. No fallaré más, porque entendí lo que realmente importa y el valor que tienes en mi vida.
-
-De mí solo vas a recibir lo mejor: mi esfuerzo, mi tiempo, mi respeto y un cariño que quiere hacer las cosas bien, sin excusas ni dudas. No prometo ser perfecto, pero sí ser constante y demostrarte con hechos lo que significas para mí.
-
-Espero que esto sea un nuevo comienzo, uno donde la confianza crezca poco a poco y donde podamos sentirnos seguros el uno con el otro. Porque más que empezar de nuevo, quiero hacerlo mejor… contigo.
-
-Te amitooooo, mi amor. ❤️
-</p>`;
+`<p id="respuesta">Te amitooooo, mi amor ❤️</p>`;
 }
 
-// 🤍 NO
+// NO
 function romperCorazon() {
-  if (navigator.vibrate) {
-    navigator.vibrate([300, 100, 300]);
-  }
+  if (navigator.vibrate) navigator.vibrate([300,100,300]);
 
   document.getElementById("main").innerHTML =
   '<div class="broken"></div>';
 
   setTimeout(() => {
     document.getElementById("main").innerHTML =
-`<p id="respuesta">
-No es fácil despedirse, pero a veces es necesario para que cada uno siga su camino. Quiero que sepas que, pase lo que pase, siempre vas a tener en mí a alguien que te aprecia de verdad. Me llevo los buenos momentos, las sonrisas y todo lo bonito que compartimos.
-
-La distancia no cambia lo que siento como persona hacia ti: respeto, cariño y buenos deseos. Y aunque ya no estemos tan cerca como antes, puedes contar conmigo cuando lo necesites, porque mi apoyo y mi cariño no desaparecen con una despedida.
-
-Cuídate mucho… y recuerda que siempre habrá alguien aquí que quiere verte. 💔
-</p>`;
+`<p id="respuesta">Cuídate mucho… 💔</p>`;
   }, 1200);
 }
 
@@ -212,8 +212,8 @@ for (let i = 0; i < 120; i++) {
 
 function drawStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ctx.fillStyle = "white";
+
   stars.forEach(s => {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
