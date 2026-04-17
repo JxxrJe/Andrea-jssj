@@ -106,7 +106,6 @@ button{
 
 <canvas id="stars"></canvas>
 
-<!-- portada -->
 <div class="portada" id="portada" onclick="iniciar()">
   <div class="flor">🌹</div>
   <p>Toca el ramo</p>
@@ -169,9 +168,7 @@ function lluvia(){
 function aceptar(){
   if(navigator.vibrate) navigator.vibrate([100,50,150]);
 
-  // limpiar TODO
   document.getElementById("main").innerHTML="";
-
   lluvia();
 
   setTimeout(()=>{
@@ -195,7 +192,6 @@ function rechazar(){
   if(navigator.vibrate) navigator.vibrate([300,100,300]);
 
   document.getElementById("main").innerHTML="";
-
   lluvia();
 
   setTimeout(()=>{
@@ -212,12 +208,43 @@ Cuídate mucho… y recuerda que siempre habrá alguien aquí que quiere verte �
   },2000);
 }
 
-// mostrar abrazo al tocar pantalla
+// ABRAZO FINAL PRO
 function mostrarAbrazo(){
   document.getElementById("main").innerHTML=
-  `<div class="final">abrazhooo ❤️</div>`;
+  `<div id="abrazoFinal" class="final">abrazhooo ❤️ Andrea</div>`;
 
-  if(navigator.vibrate) navigator.vibrate([200,50,200,50,300]);
+  if(navigator.vibrate) navigator.vibrate([200,100,200,100,300]);
+
+  const abrazo = document.getElementById("abrazoFinal");
+  abrazo.style.transform = "scale(0)";
+  abrazo.style.transition = "transform 1.5s ease";
+
+  setTimeout(()=>{
+    abrazo.style.transform = "scale(1.8)";
+  },100);
+
+  // explosión
+  for(let i=0;i<60;i++){
+    let h=document.createElement("div");
+    h.innerText="❤️";
+    h.style.position="fixed";
+    h.style.left="50%";
+    h.style.top="50%";
+    h.style.fontSize=(20+Math.random()*40)+"px";
+
+    let angle=Math.random()*2*Math.PI;
+    let distance=200+Math.random()*200;
+
+    h.style.transition="all 1.5s ease-out";
+    document.body.appendChild(h);
+
+    setTimeout(()=>{
+      h.style.transform=`translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)`;
+      h.style.opacity="0";
+    },50);
+
+    setTimeout(()=>h.remove(),1500);
+  }
 }
 
 // estrellas
